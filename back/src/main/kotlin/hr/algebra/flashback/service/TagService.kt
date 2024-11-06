@@ -18,7 +18,11 @@ class TagService (
         val newTagNames = filteredTags.filterNot { existingTagNames.contains(it.trim()) }
         val newTags = newTagNames.map { PhotoTag(name = it) }
 
-        return tagRepository.saveAll(newTags) + existingTags
+        return if(newTags.isNotEmpty()){
+            tagRepository.saveAll(newTags) + existingTags
+        } else {
+            existingTags
+        }
     }
 
     fun getAllTags(): List<String> {

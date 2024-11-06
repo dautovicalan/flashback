@@ -3,13 +3,13 @@ package hr.algebra.flashback.controller
 import hr.algebra.flashback.dto.photo.PhotoFiltersDto
 import hr.algebra.flashback.model.log.LogAction
 import hr.algebra.flashback.service.DownloadService
+import hr.algebra.flashback.service.S3DownloadService
 import hr.algebra.flashback.service.LogService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

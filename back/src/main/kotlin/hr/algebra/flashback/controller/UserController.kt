@@ -1,9 +1,6 @@
 package hr.algebra.flashback.controller
 
-import hr.algebra.flashback.dto.user.ChangePlanDto
-import hr.algebra.flashback.dto.user.UpdateUserDataDto
-import hr.algebra.flashback.dto.user.UserDto
-import hr.algebra.flashback.dto.user.toDto
+import hr.algebra.flashback.dto.user.*
 import hr.algebra.flashback.model.log.LogAction
 import hr.algebra.flashback.service.LogService
 import hr.algebra.flashback.service.UserService
@@ -30,9 +27,9 @@ class UserController(
     @PutMapping("/complete-profile")
     fun completeProfile(
         authUser: Authentication,
-        @RequestBody updateUserDataDto: UpdateUserDataDto
+        @RequestBody completeProfileDto: CompleteProfileDto
     ): ResponseEntity<UserDto> {
-        val updatedUser = userService.completeProfile(updateUserDataDto, authUser)
+        val updatedUser = userService.completeProfile(completeProfileDto, authUser)
         logService.logAction(authUser.name, "Profile completed", LogAction.UPDATE_USER)
         return ResponseEntity.ok(updatedUser.toDto())
     }
@@ -42,7 +39,7 @@ class UserController(
         @RequestBody changePlanDto: ChangePlanDto,
         authUser: Authentication
     ): ResponseEntity<UserDto> {
-        val updatedUser = userService.changeSubscriptionPlan(authUser, changePlanDto)
+        val updatedUser = userService.changeSubscriptionPlan(changePlanDto, authUser)
         logService.logAction(
             authUser.name,
             "Subscription plan changed to: ${updatedUser.subscriptionPlan}",

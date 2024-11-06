@@ -1,4 +1,32 @@
 services:
+  db:
+    image: postgres:15.4-alpine
+    ports:
+      - "55000:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: flashback
+      POSTGRES_PASSWORD: flashback
+      POSTGRES_DB: flashback
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flashback"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    networks:
+      - flashback-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=flashback
+    networks:
+      - flashback-network
+
   front:
     build: ./front
     ports:
@@ -15,26 +43,8 @@ services:
     env_file:
       - ./back/.env
     depends_on:
-      postgres-db:
-        condition: service_healthy
-    networks:
-      - flashback-network
-
-  postgres-db:
-    image: postgres:15.4-alpine
-    ports:
-      - "55000:5432"
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: flashback
-      POSTGRES_PASSWORD: flashback
-      POSTGRES_DB: flashback
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U flashback"]
-      interval: 30s
-      timeout: 30s
-      retries: 3
+      - db
+      - elasticsearch
     networks:
       - flashback-network
 

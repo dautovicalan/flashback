@@ -5,19 +5,22 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.InputStreamResource
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
-import java.io.InputStream
 import java.util.UUID
 import javax.imageio.ImageIO
 
+interface DownloadService {
+    fun downloadPhoto(photoId: Long, photoFiltersDto: PhotoFiltersDto?): Pair<Resource, String>
+}
+
 @Service
-class DownloadService(
+class S3DownloadService(
     @Autowired
     private val fileStorageService: FileStorageService,
     @Autowired
     private val photoService: PhotoService,
-) {
+) : DownloadService {
 
-    fun downloadPhoto(photoId: Long, photoFiltersDto: PhotoFiltersDto?): Pair<Resource, String> {
+    override fun downloadPhoto(photoId: Long, photoFiltersDto: PhotoFiltersDto?): Pair<Resource, String> {
         val photo = photoService.findById(photoId)
 
         val downloadedPhoto = fileStorageService.downloadFile(photo)

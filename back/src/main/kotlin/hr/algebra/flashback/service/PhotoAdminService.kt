@@ -17,8 +17,6 @@ class PhotoAdminService(
     @Autowired
     private val photoRepository: PhotoRepository,
     @Autowired
-    private val userService: UserService,
-    @Autowired
     private val tagService: TagService,
     @Autowired
     private val fileStorageService: FileStorageService

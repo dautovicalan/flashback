@@ -1,14 +1,13 @@
 package hr.algebra.flashback.service
 
 import hr.algebra.flashback.dto.user.ChangePlanDto
-import hr.algebra.flashback.dto.user.UpdateUserDataDto
+import hr.algebra.flashback.dto.user.CompleteProfileDto
 import hr.algebra.flashback.exception.AlreadyChangedSubscriptionPlanException
 import hr.algebra.flashback.exception.UserAlreadyCompletedException
 import hr.algebra.flashback.exception.UserNotFoundException
 import hr.algebra.flashback.model.user.SubscriptionPlan
 import hr.algebra.flashback.model.user.User
 import hr.algebra.flashback.repository.UserRepository
-import org.keycloak.admin.client.Keycloak
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
@@ -23,7 +22,7 @@ class UserService(
     @Autowired
     private val photoService: PhotoService,
     @Autowired
-    private val keycloakAdmin: Keycloak
+    private val keycloakAdmin: KeycloakService
 ) {
 
     fun findById(createdBy: String): User {
@@ -45,7 +44,7 @@ class UserService(
             }
     }
 
-    fun completeProfile(updateUserDataDto: UpdateUserDataDto, authUser: Authentication): User {
+    fun completeProfile(completeProfileDto: CompleteProfileDto, authUser: Authentication): User {
         val user = userRepository.findById(authUser.name)
             .orElseThrow { UserNotFoundException("User with ${authUser.name} not found") }
 
@@ -53,7 +52,7 @@ class UserService(
             throw UserAlreadyCompletedException("User with ${authUser.name} already completed profile")
         }
 
-        user.subscriptionPlan = updateUserDataDto.subscriptionPlan
+        user.subscriptionPlan = completeProfileDto.subscriptionPlan
         user.isProfileCompleted = true
         return userRepository.save(user)
     }
@@ -75,6 +74,7 @@ class UserService(
         }
     }
 
+    @Transactional
     fun deleteUser(authUser: Authentication) {
         val user = userRepository.findById(authUser.name)
             .orElseThrow { UserNotFoundException("User with ${authUser.name} not found") }
@@ -86,10 +86,10 @@ class UserService(
         photoService.deleteAllPhotosByUser(authUser)
         userRepository.deleteById(authUser.name)
 
-        keycloakAdmin.realm("flashback").users().delete(user.id)
+        keycloakAdmin.deleteUser(authUser.name)
     }
 
-    fun changeSubscriptionPlan(authUser: Authentication, changePlanDto: ChangePlanDto): User {
+    fun changeSubscriptionPlan(changePlanDto: ChangePlanDto, authUser: Authentication): User {
         val user = userRepository.findById(authUser.name)
             .orElseThrow { UserNotFoundException("User with ${authUser.name} not found") }
 
