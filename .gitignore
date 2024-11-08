@@ -1,2 +1,5 @@
 postgres-data/
+postgres-data-keycloak/
 .DS_Store
+keycloak/
+.env

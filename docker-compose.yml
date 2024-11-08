@@ -9,6 +9,7 @@ services:
       POSTGRES_USER: flashback
       POSTGRES_PASSWORD: flashback
       POSTGRES_DB: flashback
+      PGPORT: 5432
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U flashback"]
       interval: 30s
@@ -23,7 +24,59 @@ services:
       - "9200:9200"
     environment:
       - discovery.type=single-node
+      - xpack.security.http.ssl.enabled=false
       - ELASTIC_PASSWORD=flashback
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'curl -s -u elastic:flashback http://localhost:9200/_cluster/health | grep -q ''"status":"green"''',
+        ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    networks:
+      - flashback-network
+
+  db-keycloak:
+    image: postgres:15.4-alpine
+    ports:
+      - "55001:5433"
+    volumes:
+      - ./postgres-data-keycloak:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
+      PGPORT: 5433
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    networks:
+      - flashback-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.4
+    ports:
+      - "8090:8090"
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://db-keycloak:5433/keycloak
+      KC_DB_USER: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_LOG_LEVEL: INFO
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: ["start-dev", "--import-realm", "--http-port=8090", "--verbose"]
+    depends_on:
+      db-keycloak:
+        condition: service_healthy
     networks:
       - flashback-network
 
@@ -43,8 +96,10 @@ services:
     env_file:
       - ./back/.env
     depends_on:
-      - db
-      - elasticsearch
+      db:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
     networks:
       - flashback-network
 

@@ -92,7 +92,9 @@ const ProfilePage = () => {
                     </h1>
                   )}
                   <p className="text-gray-500">Username: {user.username}</p>
-                  <p className="text-gray-500">Email: {user.email}</p>
+                  {user.email && (
+                    <p className="text-gray-500">Email: {user.email}</p>
+                  )}
                   {isProfileCompleted && (
                     <p className="text-gray-500">Role: {user.role}</p>
                   )}

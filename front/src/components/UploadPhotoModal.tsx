@@ -29,6 +29,7 @@ const UploadPhotoModal: React.FC<UploadPhotoModalProps> = ({
     format: PhotoFormat.PNG,
   });
   const [uploadAsOriginal, setUploadAsOriginal] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleUploadInfoChange = (key: string, value: string) => {
     setPhotoMetaData({ ...photoMetadata, [key]: value });
@@ -48,12 +49,14 @@ const UploadPhotoModal: React.FC<UploadPhotoModalProps> = ({
     if (validPhotoMetadata(photoMetadata)) {
       return toast.error("Please enter valid photo dimensions");
     }
+    setIsUploading(true);
     onSubmit({
       file: selectedPhoto,
       description: photoDescription,
       tags: photoTags,
       metadata: uploadAsOriginal ? undefined : photoMetadata,
     });
+    setIsUploading(false);
   };
 
   return (
@@ -153,10 +156,14 @@ const UploadPhotoModal: React.FC<UploadPhotoModalProps> = ({
 
         {/* Modal Actions */}
         <div className="modal-action">
-          <button className="btn btn-primary" onClick={handleSubmit}>
+          <button
+            className="btn btn-primary"
+            onClick={handleSubmit}
+            disabled={isUploading}
+          >
             Upload
           </button>
-          <button className="btn" onClick={onClose}>
+          <button className="btn" onClick={onClose} disabled={isUploading}>
             Cancel
           </button>
         </div>

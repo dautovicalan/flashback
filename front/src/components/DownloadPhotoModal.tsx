@@ -22,13 +22,16 @@ const DownloadPhotoModal: React.FC<DownloadPhotoModalProps> = ({
       format: photo.format,
     });
   const [dowloadAsOriginal, setDownloadAsOriginal] = useState(true);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleOnChange = (key: string, value: string) => {
     setPhotoDownloadFilters({ ...photoDownloadFilters, [key]: value });
   };
 
   const handleSubmit = () => {
+    setIsDownloading(true);
     onSubmit(dowloadAsOriginal ? undefined : photoDownloadFilters);
+    setIsDownloading(false);
   };
 
   return (
@@ -133,10 +136,14 @@ const DownloadPhotoModal: React.FC<DownloadPhotoModalProps> = ({
 
         {/* Modal Actions */}
         <div className="modal-action">
-          <button className="btn btn-primary" onClick={handleSubmit}>
+          <button
+            className="btn btn-primary"
+            onClick={handleSubmit}
+            disabled={isDownloading}
+          >
             Download
           </button>
-          <button className="btn" onClick={onClose}>
+          <button className="btn" onClick={onClose} disabled={isDownloading}>
             Cancel
           </button>
         </div>

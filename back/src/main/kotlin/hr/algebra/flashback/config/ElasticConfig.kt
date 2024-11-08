@@ -13,13 +13,10 @@ class ElasticConfig(
     private val username: String,
     @Value("\${spring.elasticsearch.password}")
     private val password: String,
-    @Value("\${spring.elasticsearch.ssl}")
-    private val ssl: String
 ) : ElasticsearchConfiguration() {
     override fun clientConfiguration(): ClientConfiguration {
         return ClientConfiguration.builder()
             .connectedTo(uri)
-            .usingSsl(ssl)
             .withBasicAuth(username, password)
             .build()
     }

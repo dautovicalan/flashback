@@ -18,7 +18,6 @@ import {
   getTags,
 } from "../../api/photoApi";
 import { Dayjs } from "dayjs";
-import { areValidDates } from "../../utils/dateUtils";
 import { useUserDetailsContext } from "../useUserDetailsContext";
 
 export const useGetPhotos = (
@@ -38,7 +37,6 @@ export const useGetPhotos = (
         fromDate?.format("YYYY-MM-DD") ?? "",
         toDate?.format("YYYY-MM-DD") ?? ""
       ),
-    enabled: areValidDates(fromDate, toDate),
   });
 };
 

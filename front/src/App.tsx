@@ -50,6 +50,11 @@ function App() {
     });
   };
 
+  const resetDates = () => {
+    setFromDate(null);
+    setToDate(null);
+  };
+
   const isEligibleForUpload =
     isAuthenticated && user && userDetails.isProfileCompleted;
 
@@ -69,7 +74,7 @@ function App() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
 
-              <div className="flex gap-4 bg-white rounded-lg w-fit p-3">
+              <div className="flex gap-4 justify-center items-center bg-white rounded-lg w-fit p-3">
                 <DatePicker
                   label="From"
                   value={fromDate}
@@ -80,6 +85,15 @@ function App() {
                   value={toDate}
                   onChange={(date) => setToDate(date)}
                 />
+
+                {(fromDate || toDate) && (
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => resetDates()}
+                  >
+                    X
+                  </button>
+                )}
               </div>
             </div>
             {isEligibleForUpload && (

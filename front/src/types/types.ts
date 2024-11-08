@@ -21,7 +21,7 @@ export enum PhotoFormat {
 export type KeycloakUser = {
   id: string;
   username: string;
-  email: string;
+  email?: string;
   firstName: string | "";
   lastName: string | "";
   role: Role;
@@ -37,7 +37,7 @@ export type UpdateUserData = {
   firstName?: string;
   lastName?: string;
   subscriptionPlan: SubscriptionPlan;
-  resetDailyUploadCount: boolean;
+  resetDailyUploads: boolean;
 };
 
 export type CompleteProfile = {

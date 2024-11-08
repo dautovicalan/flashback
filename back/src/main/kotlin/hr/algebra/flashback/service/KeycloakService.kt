@@ -16,12 +16,23 @@ class KeycloakService(
     private val realm: String
 ) {
 
+    fun findUserById(id: String): KeycloakUser {
+        val user = keycloak.realm(realm).users().get(id).toRepresentation()
+        return KeycloakUser(
+            id = user.id,
+            username = user.username,
+            email = user.email,
+            firstName = user.firstName,
+            lastName = user.lastName,
+        )
+    }
+
     fun getUsers(): List<KeycloakUser> {
         return keycloak.realm(realm).users().list().map { user ->
             KeycloakUser(
                 id = user.id,
                 username = user.username,
-                email = user.email,
+                email = user?.email,
                 firstName = user.firstName,
                 lastName = user.lastName,
             )

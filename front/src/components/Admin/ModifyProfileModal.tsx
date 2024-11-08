@@ -21,7 +21,7 @@ const ModifyProfileModal = ({
     firstName: user.firstName,
     lastName: user.lastName,
     subscriptionPlan: user.subscriptionPlan,
-    resetDailyUploadCount: false,
+    resetDailyUploads: false,
   });
 
   const handleOnChange = (field: string, value: string) => {
@@ -87,9 +87,9 @@ const ModifyProfileModal = ({
           <input
             type="checkbox"
             className="checkbox"
-            checked={updateData.resetDailyUploadCount}
+            checked={updateData.resetDailyUploads}
             onChange={(e) =>
-              handleCheckboxChange("resetDailyUploadCount", e.target.checked)
+              handleCheckboxChange("resetDailyUploads", e.target.checked)
             }
           />
         </div>

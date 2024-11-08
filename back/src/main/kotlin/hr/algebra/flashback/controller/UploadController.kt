@@ -31,10 +31,11 @@ class UploadController(
     ): ResponseEntity<UploadResultDto> {
         val uploadedPhotoDto = uploadService.uploadPhoto(
             file,
-            authUser,
             description,
             tags,
-            photoMetadataDto)
+            photoMetadataDto,
+            authUser
+        )
         logService.logAction(
             authUser.name,
             "Photo uploaded: ${uploadedPhotoDto.key}",

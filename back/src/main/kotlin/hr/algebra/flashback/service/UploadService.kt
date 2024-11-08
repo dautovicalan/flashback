@@ -36,10 +36,10 @@ class UploadService(
     @Transactional
     fun uploadPhoto(
         file: MultipartFile,
-        authUser: Authentication,
         description: String?,
         tags: List<String>?,
-        photoMetadataDto: PhotoMetadataDto?
+        photoMetadataDto: PhotoMetadataDto?,
+        authUser: Authentication,
     ): UploadResultDto {
         validateUserUpload(authUser)
         validateFileFormat(file)
@@ -71,7 +71,10 @@ class UploadService(
             url = fileUri.toURL().toString(),
             format = format,
             width = width,
-            height = height
+            height = height,
+            userFullName = userService.findKeycloakUserById(authUser.name).let { keycloakUser ->
+                "${keycloakUser.firstName} ${keycloakUser.lastName}"
+            }
         )
 
         photoRepository.save(createdPhoto)

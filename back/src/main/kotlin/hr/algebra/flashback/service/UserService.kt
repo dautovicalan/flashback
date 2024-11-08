@@ -2,6 +2,7 @@ package hr.algebra.flashback.service
 
 import hr.algebra.flashback.dto.user.ChangePlanDto
 import hr.algebra.flashback.dto.user.CompleteProfileDto
+import hr.algebra.flashback.dto.user.KeycloakUser
 import hr.algebra.flashback.exception.AlreadyChangedSubscriptionPlanException
 import hr.algebra.flashback.exception.UserAlreadyCompletedException
 import hr.algebra.flashback.exception.UserNotFoundException
@@ -28,6 +29,10 @@ class UserService(
     fun findById(createdBy: String): User {
         return userRepository.findById(createdBy)
             .orElseThrow { UserNotFoundException("User with $createdBy not found") }
+    }
+
+    fun findKeycloakUserById(id: String): KeycloakUser {
+        return keycloakAdmin.findUserById(id)
     }
 
     @Transactional
