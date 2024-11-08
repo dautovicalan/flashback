@@ -10,7 +10,10 @@ type PhotoBoxProps = {
 
 const PhotoBox = ({ photo, adminView = false }: PhotoBoxProps) => {
   return (
-    <Link to={adminView ? `/admin/photo/${photo.id}` : `/photo/${photo.id}`}>
+    <Link
+      to={adminView ? `/admin/photo/${photo.id}` : `/photo/${photo.id}`}
+      className="hover:scale-105 transform transition duration-300 ease-in-out"
+    >
       <div className="hover:cursor-pointer">
         <div className="card shadow-lg bg-base-200">
           <figure className="w-48 h-48 rounded-lg overflow-hidden mx-auto p-2">

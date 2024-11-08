@@ -58,6 +58,9 @@ const UpdatePhotoModal = ({
         </div>
 
         <div className="form-control mb-4">
+          <label className="label">
+            <span className="label-text">Tags:</span>
+          </label>
           <TagsInput
             tags={tags || []}
             isLoading={isLoading}
@@ -68,7 +71,10 @@ const UpdatePhotoModal = ({
 
         {/* Modal Actions */}
         <div className="modal-action flex flex-row justify-between">
-          <button className="btn btn-secondary btn-outline" onClick={onDelete}>
+          <button
+            className="btn btn-secondary btn-outline"
+            onClick={() => setIsDeleteModalOpen(true)}
+          >
             Delete photo
           </button>
           <div className="flex flex-row gap-2">

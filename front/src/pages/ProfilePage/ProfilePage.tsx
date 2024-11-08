@@ -69,7 +69,7 @@ const ProfilePage = () => {
       {error && <ErrorScreen message={error.message} />}
       {user && userPhotos && (
         <div className="p-8 min-h-screen">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             {/* User Info Card */}
             <div className="card bg-white shadow-xl p-6 mb-8 flex flex-row justify-between">
               <div className="flex items-center space-x-6">
@@ -96,7 +96,10 @@ const ProfilePage = () => {
                     <p className="text-gray-500">Email: {user.email}</p>
                   )}
                   {isProfileCompleted && (
-                    <p className="text-gray-500">Role: {user.role}</p>
+                    <p className="text-gray-500">
+                      Role:{" "}
+                      <span className="badge badge-accent">{user.role}</span>
+                    </p>
                   )}
                   {isProfileCompleted && (
                     <p className="mt-2">

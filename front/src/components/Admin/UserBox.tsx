@@ -7,7 +7,10 @@ type UserBoxProps = {
 
 const UserBox = ({ user }: UserBoxProps) => {
   return (
-    <Link to={`/admin/user/${user.id}`}>
+    <Link
+      to={`/admin/user/${user.id}`}
+      className="hover:scale-105 transform transition duration-300 ease-in-out"
+    >
       <div className="hover:cursor-pointer">
         <div className="card shadow-lg bg-base-200 p-2">
           <figure className="w-full">

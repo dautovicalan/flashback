@@ -71,7 +71,7 @@ const UploadPhotoModal: React.FC<UploadPhotoModalProps> = ({
           </label>
           <input
             type="file"
-            className="input input-bordered"
+            className="file-input file-input-bordered file-input-primary w-full"
             accept="image/*"
             onChange={handlePhotoChange}
           />
@@ -83,7 +83,7 @@ const UploadPhotoModal: React.FC<UploadPhotoModalProps> = ({
           </label>
           <input
             type="checkbox"
-            className="checkbox"
+            className="checkbox ml-1"
             checked={uploadAsOriginal}
             onChange={() => setUploadAsOriginal((prev) => !prev)}
           />

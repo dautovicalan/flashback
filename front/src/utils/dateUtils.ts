@@ -1,11 +1,7 @@
 import dayjs, { Dayjs } from "dayjs";
 
 export const toFormattedDate = (date: string) => {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  return dayjs(date).format("DD/MM/YYYY");
 };
 
 export const areValidDates = (fromDate: Dayjs | null, toDate: Dayjs | null) => {

@@ -49,7 +49,7 @@ const DownloadPhotoModal: React.FC<DownloadPhotoModalProps> = ({
           </label>
           <input
             type="checkbox"
-            className="checkbox"
+            className="checkbox ml-1"
             checked={dowloadAsOriginal}
             onChange={() => setDownloadAsOriginal((prev) => !prev)}
           />

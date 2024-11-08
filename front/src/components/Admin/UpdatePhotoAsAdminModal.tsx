@@ -61,7 +61,7 @@ const UpdatePhotoAsAdminModal = ({
 
         <div className="form-control mb-4">
           <label className="label">
-            <span className="label-text">Width:</span>
+            <span className="label-text">Width (changes only metadata):</span>
           </label>
           <input
             type="text"
@@ -74,7 +74,7 @@ const UpdatePhotoAsAdminModal = ({
 
         <div className="form-control mb-4">
           <label className="label">
-            <span className="label-text">Height:</span>
+            <span className="label-text">Height (changes only metadata):</span>
           </label>
           <input
             type="text"

@@ -15,6 +15,7 @@ import { PhotoFilters, UpdatePhotoMetadata } from "../../types/types";
 import { toFormattedDate } from "../../utils/dateUtils";
 import UpdatePhotoModal from "../../components/UpdatePhotoModal";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import Tooltip from "../../components/shared/Tooltip";
 
 const PhotoPage = () => {
   const { id } = useParams();
@@ -134,22 +135,32 @@ const PhotoPage = () => {
                   {/* Photo details */}
                   <div>
                     <h1 className="text-2xl font-bold">
-                      Description: {photo?.description}
+                      Description:{" "}
+                      {photo?.description && photo.description.length > 0 ? (
+                        <Tooltip text={photo.description} maxLen={25} />
+                      ) : (
+                        "No description"
+                      )}
                     </h1>
-                    <p className="text-gray-500">Author: {photo.author}</p>
+                    <p className="text-gray-500 font-bold">
+                      Author: {photo.author}
+                    </p>
                     <p className="text-gray-500">Width: {photo.width} px</p>
                     <p className="text-gray-500">Height: {photo.height} px</p>
                     <p className="text-gray-500">
                       Upload date: {toFormattedDate(photo.uploadDate)}
                     </p>
-                    <p className="text-gray-500">Format: {photo.format}</p>
+                    <p className="text-gray-500">
+                      Format:{" "}
+                      <span className="badge badge-accent">{photo.format}</span>
+                    </p>
                     <div className="mt-2">
                       <Tags tags={photo.tags} />
                     </div>
                   </div>
                 </div>
                 {/* Download button */}
-                <div className="flex flex-col gap-5 justify-center items-center">
+                <div className="flex flex-col gap-2 items-end">
                   <button
                     className="btn btn-primary"
                     onClick={handleOpenDownloadModal}

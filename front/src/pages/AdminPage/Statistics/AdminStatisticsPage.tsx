@@ -54,8 +54,6 @@ export const AdminStatisticsPage = () => {
     });
   };
 
-  console.log("logEntries", groupedData);
-
   return (
     <>
       {isLoading && isLoadingUsers && <LoadingScreen />}

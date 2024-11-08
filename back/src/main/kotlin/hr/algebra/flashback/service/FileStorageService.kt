@@ -1,11 +1,8 @@
 package hr.algebra.flashback.service
 
-import hr.algebra.flashback.dto.upload.PhotoMetadataDto
 import hr.algebra.flashback.model.upload.Photo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.io.InputStreamResource
-import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.services.s3.S3Client
@@ -15,9 +12,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest
 import software.amazon.awssdk.services.s3.model.S3Exception
 import java.io.InputStream
 import java.net.URI
-import java.nio.file.Files
-import java.nio.file.StandardCopyOption
-import java.util.UUID
 
 interface FileStorageService {
     fun uploadFile(fileStream: InputStream, filePath: String): Pair<String, URI>
@@ -54,13 +48,7 @@ class S3Service(
                 .acl("public-read")
                 .build()
 
-            val tempFile = Files.createTempFile("upload-", ".tmp")
-            Files.copy(fileStream, tempFile, StandardCopyOption.REPLACE_EXISTING)
-
-            s3Client
-                .putObject(request,
-                    RequestBody.fromFile(tempFile)
-                )
+            s3Client.putObject(request, RequestBody.fromInputStream(fileStream, fileStream.available().toLong()))
             Pair(key, fileUrl)
         } catch (e: S3Exception) {
             e.printStackTrace()

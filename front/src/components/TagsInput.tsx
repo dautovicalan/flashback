@@ -28,7 +28,6 @@ const TagsInput = ({
           <TextField
             {...params}
             variant="standard"
-            label="Tags"
             placeholder="Add tags"
             fullWidth
             margin="normal"
@@ -47,6 +46,16 @@ const TagsInput = ({
             }}
           />
         )}
+        renderTags={(value, getTagProps) =>
+          value.map((option, index) => (
+            <span
+              {...getTagProps({ index })}
+              className="badge badge-primary mr-2"
+            >
+              {option}
+            </span>
+          ))
+        }
       />
     </>
   );

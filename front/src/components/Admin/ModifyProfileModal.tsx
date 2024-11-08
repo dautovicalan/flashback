@@ -39,7 +39,7 @@ const ModifyProfileModal = ({
   return (
     <div className="modal modal-open">
       <div className="modal-box">
-        <h2 className="font-bold text-lg mb-4">Change User Info</h2>
+        <h2 className="font-bold text-lg mb-4">Modify Profile Info</h2>
 
         <div className="form-control mb-4">
           <label className="label">
@@ -86,7 +86,7 @@ const ModifyProfileModal = ({
           </label>
           <input
             type="checkbox"
-            className="checkbox"
+            className="checkbox ml-1"
             checked={updateData.resetDailyUploads}
             onChange={(e) =>
               handleCheckboxChange("resetDailyUploads", e.target.checked)
