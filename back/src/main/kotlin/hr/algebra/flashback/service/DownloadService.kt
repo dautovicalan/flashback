@@ -8,26 +8,22 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 import javax.imageio.ImageIO
 
-interface DownloadService {
-    fun downloadPhoto(photoId: Long, photoFiltersDto: PhotoFiltersDto?): Pair<Resource, String>
-}
-
 @Service
-class S3DownloadService(
+class DownloadService(
     @Autowired
     private val fileStorageService: FileStorageService,
     @Autowired
     private val photoService: PhotoService,
-) : DownloadService {
+) {
 
-    override fun downloadPhoto(photoId: Long, photoFiltersDto: PhotoFiltersDto?): Pair<Resource, String> {
+    fun downloadPhoto(photoId: Long, photoFiltersDto: PhotoFiltersDto?): Pair<Resource, String> {
         val photo = photoService.findById(photoId)
 
         val downloadedPhoto = fileStorageService.downloadFile(photo)
 
         if (photoFiltersDto != null) {
             val bufferedImage = ImageIO.read(downloadedPhoto)
-            val transformedInputStream = ImageTransformationService.Builder(bufferedImage)
+            val transformedInputStream = PhotoTransformationService.Builder(bufferedImage)
                 .width(photoFiltersDto.width)
                 .height(photoFiltersDto.height)
                 .blur(photoFiltersDto.blur)

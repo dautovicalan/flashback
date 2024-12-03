@@ -107,7 +107,7 @@ class UploadService(
         height: Int,
         format: PhotoFormat,
     ): InputStream {
-     return ImageTransformationService.Builder(inputStream)
+     return PhotoTransformationService.Builder(inputStream)
             .width(width)
             .height(height)
             .format(format)

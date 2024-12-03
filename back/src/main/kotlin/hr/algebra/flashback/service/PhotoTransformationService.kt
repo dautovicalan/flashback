@@ -2,7 +2,6 @@ package hr.algebra.flashback.service
 
 import hr.algebra.flashback.dto.upload.PhotoFormat
 import net.coobird.thumbnailator.Thumbnails
-import org.springframework.stereotype.Service
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.awt.image.ConvolveOp
@@ -13,9 +12,9 @@ import java.io.InputStream
 import javax.imageio.ImageIO
 
 
-@Service
-class ImageTransformationService {
+class PhotoTransformationService {
 
+    // BUILDER PATTERN
     class Builder(
         private val bufferedImage: BufferedImage
     ) {
@@ -48,6 +47,7 @@ class ImageTransformationService {
 
 }
 
+// FACADE PATTERN
 fun BufferedImage.toInputStream(format: PhotoFormat): InputStream{
     val outputStream = ByteArrayOutputStream()
     ImageIO.write(this, format.name, outputStream)

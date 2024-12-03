@@ -3,10 +3,12 @@ package hr.algebra.flashback.service
 import hr.algebra.flashback.dto.upload.UpdatePhotoMetadataDto
 import hr.algebra.flashback.exception.NotOwnerOfPhotoException
 import hr.algebra.flashback.exception.PhotoNotFoundException
+import hr.algebra.flashback.handler.DescriptionUpdateHandler
+import hr.algebra.flashback.handler.PhotoOwnershipValidationHandler
+import hr.algebra.flashback.handler.UpdateHandler
 import hr.algebra.flashback.model.upload.Photo
 import hr.algebra.flashback.repository.PhotoRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Lazy
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.security.core.Authentication
@@ -22,7 +24,7 @@ class PhotoService(
     private val fileStorageService: FileStorageService,
     @Autowired
     private val tagService: TagService
-) {
+)  {
 
     fun findPhotos() = photoRepository.findAll().map { it }
 
@@ -55,17 +57,20 @@ class PhotoService(
         val photo = photoRepository.findById(photoId)
             .orElseThrow { PhotoNotFoundException("Photo with id: $photoId not found") }
 
-        if (photo.createdBy != authUser.name) {
-            throw NotOwnerOfPhotoException("You are not the owner of this photo")
-        }
+        // CHAIN OF RESPONSIBILITY
+        val handlers = listOf<UpdateHandler<Photo, UpdatePhotoMetadataDto>>(
+            PhotoOwnershipValidationHandler(),
+            DescriptionUpdateHandler()
+        )
+
+        var updatedPhoto = photo
+        handlers.forEach { updatedPhoto = it.handle(updatedPhoto, photoMetadataDto, authUser) }
+
 
         val tags = if (photoMetadataDto.tags != null) tagService.createTags(photoMetadataDto.tags.toSet()) else emptyList()
+        updatedPhoto.tags = tags.toMutableSet()
 
-        photo.description = photoMetadataDto.description
-        photo.tags = tags.toMutableSet()
-
-        val updatedPhoto = photoRepository.save(photo)
-        return updatedPhoto
+        return photoRepository.save(updatedPhoto)
     }
 
     @Transactional

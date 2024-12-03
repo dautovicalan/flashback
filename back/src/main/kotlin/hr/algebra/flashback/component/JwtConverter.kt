@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.stereotype.Component
 
 
+// ADAPTER PATTERN
 @Component
 class JwtConverter: Converter<Jwt, AbstractAuthenticationToken> {
 

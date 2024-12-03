@@ -1,8 +1,8 @@
 package hr.algebra.flashback.service
 
+import hr.algebra.flashback.config.s3.S3Handler
 import hr.algebra.flashback.model.upload.Photo
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.services.s3.S3Client
@@ -20,35 +20,35 @@ interface FileStorageService {
 }
 
 @Service
-class S3Service(
+class S3FileStorageService(
     @Autowired
-    private val s3Client: S3Client,
-    @Value("\${cloud.aws.s3.bucket}")
-    private val bucketName: String,
-    @Value("\${cloud.aws.s3.region}")
-    private val region: String,
-    @Value("\${cloud.aws.s3.image.folder}")
-    private val imageFolder: String
+    private val s3Handler: S3Handler
 ) : FileStorageService {
-
 
     override fun uploadFile(
         fileStream: InputStream,
         filePath: String,
     ): Pair<String, URI> {
-        val key = "$imageFolder/$filePath"
-        val fileUrl = URI.create("https://$bucketName.s3.$region.amazonaws.com/$key")
+        val s3Client = s3Handler.s3Client
+        val key = "${s3Handler.imageFolder}/$filePath"
+        val fileUrl = URI.create("https://${s3Handler.bucketName}.s3.${s3Handler.bucketName}.amazonaws.com/$key")
 
         return try {
             val request = PutObjectRequest.builder()
-                .bucket(bucketName)
+                .bucket(s3Handler.bucketName)
                 .key(key)
                 .contentType("image/jpeg")
                 .contentDisposition("inline")
                 .acl("public-read")
                 .build()
 
-            s3Client.putObject(request, RequestBody.fromInputStream(fileStream, fileStream.available().toLong()))
+            s3Client.putObject(
+                request,
+                RequestBody.fromInputStream(
+                    fileStream,
+                    fileStream.available().toLong()
+                )
+            )
             Pair(key, fileUrl)
         } catch (e: S3Exception) {
             e.printStackTrace()
@@ -58,8 +58,9 @@ class S3Service(
 
     override fun downloadFile(photo: Photo): InputStream {
         try {
+            val s3Client = s3Handler.s3Client
             val request = GetObjectRequest.builder()
-                .bucket(bucketName)
+                .bucket(s3Handler.bucketName)
                 .key(photo.key)
                 .build()
             val response = s3Client.getObject(request)
@@ -75,8 +76,9 @@ class S3Service(
 
     override fun deleteFile(photo: Photo) {
         try {
+            val s3Client = s3Handler.s3Client
             val request = DeleteObjectRequest.builder()
-                .bucket(bucketName)
+                .bucket(s3Handler.bucketName)
                 .key(photo.key)
                 .build()
             s3Client.deleteObject(request)

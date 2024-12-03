@@ -9,6 +9,13 @@ import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.S3Configuration
 
+data class S3Handler(
+    val s3Client: S3Client,
+    val region: String,
+    val bucketName: String,
+    val imageFolder: String
+)
+
 @Configuration
 class S3Config {
     @Value("\${cloud.aws.s3.access-key}")
@@ -17,6 +24,10 @@ class S3Config {
     private lateinit var secretKey: String
     @Value("\${cloud.aws.s3.region}")
     private lateinit var region: String
+    @Value("\${cloud.aws.s3.bucket}")
+    private lateinit var bucketName: String
+    @Value("\${cloud.aws.s3.image.folder}")
+    private lateinit var imageFolder: String
 
     @Bean
     fun amazonS3(): S3Client {
@@ -29,4 +40,7 @@ class S3Config {
 
         return builder.build()
     }
+
+    @Bean
+    fun s3Handler() = S3Handler(amazonS3(), region, bucketName, imageFolder)
 }
