@@ -22,9 +22,9 @@
 • Minimal: show examples of compliance with 2 principles from the SOLID -- DONE
 • Preferred: show examples of compliance with at least 4 principles from the SOLID -- DONE
 
-• Add metrics and demonstrate how you can monitor your application health and performance (Outcome: O9 – 12 points)
-• Minimal: 2 metrics which can be monitored
-• Preferred: at least 5 metrics, from which at least one should be metric created by you
+• Add metrics and demonstrate how you can monitor your application health and performance (Outcome: O9 – 12 points) -- DONE
+• Minimal: 2 metrics which can be monitored -- DONE
+• Preferred: at least 5 metrics, from which at least one should be metric created by you -- DONE
 
 • Reduce coupling in code by using functional programming paradigm (Outcome: O5 – 12 points) -- DONE
 • Minimal: 2 different examples (different methods) -- DONE

@@ -1,4 +1,8 @@
 docker run \
     -p 9090:9090 \
-    -v /path/to/config:/etc/prometheus \
+    --name prometheus_flashback \
+    -v ./prometheus.yml:/etc/prometheus/prometheus.yml \
     prom/prometheus
+
+
+ http://localhost:8080/actuator/metrics

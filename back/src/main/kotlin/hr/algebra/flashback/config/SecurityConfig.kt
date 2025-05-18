@@ -43,6 +43,7 @@ class SecurityConfig(
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests { request ->
             request.requestMatchers("/api/v1/photos/**").permitAll()
+            request.requestMatchers("/actuator/**").permitAll()
             request.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
             request.requestMatchers("/api/v1/statistics/**").hasRole("ADMIN")
             request.anyRequest().authenticated()

@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service
 @Service
 class KeycloakService(
     @Autowired
-    private val keycloak: Keycloak,
+    private val keycloakAdminClient: Keycloak,
     @Value("\${keycloak.realm}")
     private val realm: String
 ) {
 
     fun findUserById(id: String): KeycloakUser {
-        val user = keycloak.realm(realm).users().get(id).toRepresentation()
+        val user = keycloakAdminClient.realm(realm).users().get(id).toRepresentation()
         return KeycloakUser(
             id = user.id,
             username = user.username,
@@ -28,7 +28,7 @@ class KeycloakService(
     }
 
     fun getUsers(): List<KeycloakUser> {
-        return keycloak.realm(realm).users().list().map { user ->
+        return keycloakAdminClient.realm(realm).users().list().map { user ->
             KeycloakUser(
                 id = user.id,
                 username = user.username,
@@ -40,11 +40,11 @@ class KeycloakService(
     }
 
     fun deleteUser(id: String) {
-        keycloak.realm(realm).users().get(id).remove()
+        keycloakAdminClient.realm(realm).users().get(id).remove()
     }
 
     fun updateUser(id: String, modifyData: UpdateUserDataDto) {
-        keycloak.realm(realm).users().get(id).update(
+        keycloakAdminClient.realm(realm).users().get(id).update(
             UserRepresentation().apply {
                 firstName = modifyData.firstName
                 lastName = modifyData.lastName

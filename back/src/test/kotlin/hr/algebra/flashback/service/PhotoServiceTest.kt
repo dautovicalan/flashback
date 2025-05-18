@@ -3,6 +3,7 @@ package hr.algebra.flashback.service
 import hr.algebra.flashback.dto.upload.UpdatePhotoMetadataDto
 import hr.algebra.flashback.exception.NotOwnerOfPhotoException
 import hr.algebra.flashback.exception.PhotoNotFoundException
+import hr.algebra.flashback.metric.PhotoMetric
 import hr.algebra.flashback.model.upload.Photo
 import hr.algebra.flashback.model.upload.PhotoTag
 import hr.algebra.flashback.repository.PhotoRepository
@@ -21,6 +22,7 @@ class PhotoServiceTest {
     private val photoRepository: PhotoRepository = mock(PhotoRepository::class.java)
     private val fileStorageService: FileStorageService = mock(FileStorageService::class.java)
     private val tagService: TagService = mock(TagService::class.java)
+    private val photoMetric: PhotoMetric = mock(PhotoMetric::class.java)
 
 
     private lateinit var updatePhotoMetadataDto: UpdatePhotoMetadataDto
@@ -78,7 +80,7 @@ class PhotoServiceTest {
             `when`(photoRepository.findById(1)).thenReturn(Optional.empty())
         }
 
-        photoService = PhotoService(photoRepository, fileStorageService, tagService)
+        photoService = PhotoService(photoRepository, fileStorageService, tagService, photoMetric)
 
         authUser = mock(Authentication::class.java)
         `when`(authUser.name).thenReturn("1")
