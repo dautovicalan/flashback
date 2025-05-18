@@ -6,3 +6,11 @@ docker run \
 
 
  http://localhost:8080/actuator/metrics
+
+ Containers to start
+ docker compose up -d - in the root of the this project
+ npm start dev
+ postgre flashback
+ keycloak
+ es01
+ kib01
