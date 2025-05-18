@@ -60,7 +60,7 @@ class PhotoService(
         // CHAIN OF RESPONSIBILITY
         val handlers = listOf<UpdateHandler<Photo, UpdatePhotoMetadataDto>>(
             PhotoOwnershipValidationHandler(),
-            DescriptionUpdateHandler()
+            DescriptionUpdateHandler(),
         )
 
         var updatedPhoto = photo

@@ -81,7 +81,7 @@ class SecurityConfig(
     fun auditorAware(): AuditorAware<String> {
         return ApplicationAuditAware()
     }
-
+    // FACTORY METHOD
     @Bean
     fun keycloakAdminClient(): Keycloak {
         return KeycloakBuilder.builder()

@@ -31,7 +31,7 @@ class S3FileStorageService(
     ): Pair<String, URI> {
         val s3Client = s3Handler.s3Client
         val key = "${s3Handler.imageFolder}/$filePath"
-        val fileUrl = URI.create("https://${s3Handler.bucketName}.s3.${s3Handler.bucketName}.amazonaws.com/$key")
+        val fileUrl = URI.create("https://${s3Handler.bucketName}.s3.amazonaws.com/$key")
 
         return try {
             val request = PutObjectRequest.builder()
