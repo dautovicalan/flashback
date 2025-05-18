@@ -6,6 +6,7 @@ import hr.algebra.flashback.exception.PhotoNotFoundException
 import hr.algebra.flashback.handler.DescriptionUpdateHandler
 import hr.algebra.flashback.handler.PhotoOwnershipValidationHandler
 import hr.algebra.flashback.handler.UpdateHandler
+import hr.algebra.flashback.metric.PhotoMetric
 import hr.algebra.flashback.model.upload.Photo
 import hr.algebra.flashback.repository.PhotoRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,7 +24,9 @@ class PhotoService(
     @Autowired
     private val fileStorageService: FileStorageService,
     @Autowired
-    private val tagService: TagService
+    private val tagService: TagService,
+    @Autowired
+    private val photoMetric: PhotoMetric
 )  {
 
     fun findPhotos() = photoRepository.findAll().map { it }
@@ -70,6 +73,7 @@ class PhotoService(
         val tags = if (photoMetadataDto.tags != null) tagService.createTags(photoMetadataDto.tags.toSet()) else emptyList()
         updatedPhoto.tags = tags.toMutableSet()
 
+        photoMetric.incrementPhotoUpdateCounter()
         return photoRepository.save(updatedPhoto)
     }
 
@@ -84,6 +88,7 @@ class PhotoService(
 
         fileStorageService.deleteFile(photo)
         photoRepository.deleteById(photo.id)
+        photoMetric.incrementDeleteCounter()
     }
 
     @Transactional
@@ -91,6 +96,7 @@ class PhotoService(
         val photos = photoRepository.findByCreatedBy(authUser.name)
         photos.forEach { fileStorageService.deleteFile(it) }
         photoRepository.deleteAll(photos)
+        photoMetric.incrementDeleteAllCounter()
     }
 
 }

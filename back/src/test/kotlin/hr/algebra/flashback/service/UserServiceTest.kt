@@ -54,10 +54,7 @@ class UserServiceTest {
         val newUser = User("2", SubscriptionPlan.FREE, LocalDate.now(Clock.systemUTC()), false, 0)
 
         `when`(userRepository.findById("2")).thenReturn(Optional.empty())
-        `when`(userRepository.findById("2").orElseGet { userRepository.save(newUser) }).thenReturn(newUser)
-        `when`(userRepository.save(
-            User("2", SubscriptionPlan.FREE, LocalDate.now(Clock.systemUTC()), false, 0)))
-            .thenReturn(User("2", SubscriptionPlan.FREE, LocalDate.now(Clock.systemUTC()), false, 0))
+        `when`(userRepository.save(newUser)).thenReturn(newUser)
 
         val user = userService.findOrCreateUser(newAuthUser)
         assert(user.id == "2")
@@ -133,6 +130,29 @@ class UserServiceTest {
         assert(user1.dailyUpload == 0)
         assert(user2.dailyUpload == 0)
         assert(user3.dailyUpload == 0)
+    }
+
+    @Test
+    fun `test increase daily upload for existing user`() {
+       val user = User("1", SubscriptionPlan.FREE, LocalDate.now(Clock.systemUTC()), false, 0)
+
+        `when`(userRepository.findById("1")).thenReturn(Optional.of(user))
+        `when`(userRepository.save(user)).thenReturn(user)
+
+        userService.increaseDailyUpload(authUser)
+
+        assert(user.dailyUpload == 1)
+    }
+
+    @Test
+    fun `test increase daily upload for not existing user`() {
+        val notExistingUser = mock(Authentication::class.java)
+        `when`(notExistingUser.name).thenReturn("99")
+        `when`(userRepository.findById("99")).thenReturn(Optional.empty())
+
+        assertThrows<UserNotFoundException> {
+            userService.increaseDailyUpload(notExistingUser)
+        }
     }
 
     @Test

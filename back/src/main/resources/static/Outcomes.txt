@@ -1,0 +1,34 @@
+• Describe programming testing concepts (Outcome: O1 – 10 points) -- DONE
+• Minimal: describe basic concepts as a part of project presentation -- DONE
+• Preferred: describe advanced concepts as a part of project presentation -- DONE
+
+• Add unit, integration, UI tests (Outcome: O2 – 10 points, O3 – 10 points)
+• Minimal: cover 2 of these categories with 5 tests in total, and compare them with examples on the solution -- DONE
+• Preferred: cover all these categories with at least 10 tests in total (the tests need to be implemented on architecturally at least 2 different parts), and compare them with examples on the solution
+
+• Describe testing and improving programming solution (Outcome: O4 – 10 points)
+• Minimal: describe testing programming system and making it compatible with relevant forms as a part of project presentation -- DONE
+• Preferred: offer solutions for decreasing time spent and allocated memory for completing given programming solution as a part of project presentation -- DONE
+
+• Add aspects using aspect-oriented programming (Outcome: O6 – 12 points)
+• Minimal: an aspect with 2 usages
+• Preferred: at least 2 aspects with at least 5 usages in total
+
+• Demonstrate version control workflow you use when implementing features or refactoring (Outcome: O7 – 12 points) -- DONE
+• Minimal: the solution should be available on a Git repository, and describe the strategy of source code management as a part of project presentation -- DONE
+• Preferred: at least 2 branches on a Git repository, and describe the strategy of source code management as a part of project presentation -- DONE
+
+• Apply refactoring best practices to improve your existing code (Outcome: O8 – 8 points) -- DONE
+• Minimal: show examples of compliance with 2 principles from the SOLID -- DONE
+• Preferred: show examples of compliance with at least 4 principles from the SOLID -- DONE
+
+• Add metrics and demonstrate how you can monitor your application health and performance (Outcome: O9 – 12 points)
+• Minimal: 2 metrics which can be monitored
+• Preferred: at least 5 metrics, from which at least one should be metric created by you
+
+• Reduce coupling in code by using functional programming paradigm (Outcome: O5 – 12 points) -- DONE
+• Minimal: 2 different examples (different methods) -- DONE
+• Preferred: at least 5 different examples (different methods) -- DONE
+
+• Demonstrate how to package and run your app as a container (Outcome: O8 – 4 points) -- DONE
+• Preferred: the app should be containerized using Docker -- DONE

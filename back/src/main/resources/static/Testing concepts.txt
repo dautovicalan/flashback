@@ -1,0 +1,24 @@
+Testing concepts
+
+1. Unit testing - testing individual and isolated units of code. Example: testing a function
+
+2. Integration testing - testing the interaction between different units or components.
+Example: testing a function that calls another function
+
+3. Functional testing - testing the functionality of the system as a whole.
+Example: testing a web application to ensure it meets the requirements
+
+4. End-to-end testing - testing the entire system from start to finish.
+Example: testing a web application by simulating user interactions
+
+5. TDD - test-driven development. Paradigm where tests are written before the code.
+
+6. Mock testing - using mock objects to simulate the behavior of real objects.
+It allows testing of components in isolation and improves speed/performance of tests.
+
+7. Test containers - using lightweight containers to run tests in an isolated environment.
+
+8. Test coverage - measuring the percentage of code that is executed during tests.
+
+9. SonarQube - a tool for continuous inspection of code quality.
+It provides static code analysis, code coverage, and other metrics.

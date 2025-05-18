@@ -37,16 +37,18 @@ class UserService(
 
     @Transactional
     fun findOrCreateUser(authUser: Authentication): User {
-        return userRepository.findById(authUser.name)
-            .orElseGet {
-                val user = User(
-                    authUser.name,
-                    SubscriptionPlan.FREE,
-                    LocalDate.now(Clock.systemUTC()),
-                    false,
-                    0)
-                userRepository.save(user)
-            }
+        val user = userRepository.findById(authUser.name)
+        if (user.isEmpty){
+            val newUser = User(
+                authUser.name,
+                SubscriptionPlan.FREE,
+                LocalDate.now(Clock.systemUTC()),
+                false,
+                0)
+            userRepository.save(newUser)
+            return newUser
+        }
+        return user.get()
     }
 
     fun completeProfile(completeProfileDto: CompleteProfileDto, authUser: Authentication): User {
