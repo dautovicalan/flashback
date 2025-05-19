@@ -1,12 +1,14 @@
 package hr.algebra.flashback.service
 
+import hr.algebra.flashback.aspect.TrackDeleteAllPhotos
+import hr.algebra.flashback.aspect.TrackPhotoDelete
+import hr.algebra.flashback.aspect.TrackPhotoUpdate
 import hr.algebra.flashback.dto.upload.UpdatePhotoMetadataDto
 import hr.algebra.flashback.exception.NotOwnerOfPhotoException
 import hr.algebra.flashback.exception.PhotoNotFoundException
 import hr.algebra.flashback.handler.DescriptionUpdateHandler
 import hr.algebra.flashback.handler.PhotoOwnershipValidationHandler
 import hr.algebra.flashback.handler.UpdateHandler
-import hr.algebra.flashback.metric.PhotoMetric
 import hr.algebra.flashback.model.upload.Photo
 import hr.algebra.flashback.repository.PhotoRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,8 +27,6 @@ class PhotoService(
     private val fileStorageService: FileStorageService,
     @Autowired
     private val tagService: TagService,
-    @Autowired
-    private val photoMetric: PhotoMetric
 )  {
 
     fun findPhotos() = photoRepository.findAll().map { it }
@@ -56,6 +56,7 @@ class PhotoService(
     }
 
     @Transactional
+    @TrackPhotoUpdate
     fun updatePhotoMetadata(photoId: Long, photoMetadataDto: UpdatePhotoMetadataDto, authUser: Authentication): Photo {
         val photo = photoRepository.findById(photoId)
             .orElseThrow { PhotoNotFoundException("Photo with id: $photoId not found") }
@@ -73,11 +74,11 @@ class PhotoService(
         val tags = if (photoMetadataDto.tags != null) tagService.createTags(photoMetadataDto.tags.toSet()) else emptyList()
         updatedPhoto.tags = tags.toMutableSet()
 
-        photoMetric.incrementPhotoUpdateCounter()
         return photoRepository.save(updatedPhoto)
     }
 
     @Transactional
+    @TrackPhotoDelete
     fun deletePhoto(photoId: Long, authUser: Authentication) {
         val photo = photoRepository.findById(photoId)
             .orElseThrow { PhotoNotFoundException("Photo with id: $photoId not found") }
@@ -88,15 +89,14 @@ class PhotoService(
 
         fileStorageService.deleteFile(photo)
         photoRepository.deleteById(photo.id)
-        photoMetric.incrementDeleteCounter()
     }
 
     @Transactional
+    @TrackDeleteAllPhotos
     fun deleteAllPhotosByUser(authUser: Authentication) {
         val photos = photoRepository.findByCreatedBy(authUser.name)
         photos.forEach { fileStorageService.deleteFile(it) }
         photoRepository.deleteAll(photos)
-        photoMetric.incrementDeleteAllCounter()
     }
 
 }

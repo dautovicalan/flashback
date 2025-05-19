@@ -4,7 +4,6 @@ import hr.algebra.flashback.dto.upload.PhotoFormat
 import hr.algebra.flashback.model.upload.Photo
 import jakarta.validation.constraints.Size
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 data class PhotoDto(
     val id : Long = 0L,

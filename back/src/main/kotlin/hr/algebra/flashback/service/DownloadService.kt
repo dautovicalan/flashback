@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.InputStreamResource
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
-import java.util.UUID
+import java.util.*
 import javax.imageio.ImageIO
 
 @Service

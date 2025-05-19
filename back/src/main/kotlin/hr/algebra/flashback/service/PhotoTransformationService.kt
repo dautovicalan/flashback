@@ -1,5 +1,6 @@
 package hr.algebra.flashback.service
 
+import hr.algebra.flashback.aspect.TrackTransformation
 import hr.algebra.flashback.dto.upload.PhotoFormat
 import net.coobird.thumbnailator.Thumbnails
 import java.awt.Color
@@ -30,6 +31,7 @@ class PhotoTransformationService {
         fun sepia(sepia: Int) = apply { this.sepia = sepia }
         fun format(format: PhotoFormat) = apply { this.format = format }
 
+        @TrackTransformation
         fun buildProcessedImage(): InputStream {
 
             val newImage = Thumbnails

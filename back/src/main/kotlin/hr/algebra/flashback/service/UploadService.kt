@@ -1,12 +1,12 @@
 package hr.algebra.flashback.service
 
+import hr.algebra.flashback.aspect.TrackPhotoUpload
 import hr.algebra.flashback.dto.upload.PhotoFormat
 import hr.algebra.flashback.dto.upload.PhotoMetadataDto
 import hr.algebra.flashback.dto.upload.UploadResultDto
 import hr.algebra.flashback.exception.DailyUploadReachedException
 import hr.algebra.flashback.exception.ProfileNotCompletedException
 import hr.algebra.flashback.exception.WrongFileFormatException
-import hr.algebra.flashback.metric.PhotoMetric
 import hr.algebra.flashback.model.upload.Photo
 import hr.algebra.flashback.model.upload.PhotoTag
 import hr.algebra.flashback.repository.PhotoRepository
@@ -32,11 +32,10 @@ class UploadService(
     private val tagService: TagService,
     @Autowired
     private val userService: UserService,
-    @Autowired
-    private val photoMetric: PhotoMetric
 ) {
 
     @Transactional
+    @TrackPhotoUpload
     fun uploadPhoto(
         file: MultipartFile,
         description: String?,
@@ -82,7 +81,6 @@ class UploadService(
 
         photoRepository.save(createdPhoto)
         userService.increaseDailyUpload(authUser)
-        photoMetric.incrementPhotoUpdateCounter()
 
         return UploadResultDto(photoKey, createdPhoto.uploadDate,)
     }

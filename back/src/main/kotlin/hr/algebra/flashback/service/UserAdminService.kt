@@ -1,6 +1,9 @@
 package hr.algebra.flashback.service
 
-import hr.algebra.flashback.dto.user.*
+import hr.algebra.flashback.dto.user.KeycloakUser
+import hr.algebra.flashback.dto.user.UpdateUserDataDto
+import hr.algebra.flashback.dto.user.UserDto
+import hr.algebra.flashback.dto.user.toDto
 import hr.algebra.flashback.exception.UserNotFoundException
 import hr.algebra.flashback.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired

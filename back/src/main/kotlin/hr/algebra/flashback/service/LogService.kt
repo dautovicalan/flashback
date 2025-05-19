@@ -1,7 +1,6 @@
 package hr.algebra.flashback.service
 
 import hr.algebra.flashback.exception.LogActionNotFoundException
-import hr.algebra.flashback.exception.UserNotFoundException
 import hr.algebra.flashback.logging.Logger
 import hr.algebra.flashback.model.log.LogAction
 import hr.algebra.flashback.model.log.LogEntry

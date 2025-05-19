@@ -1,6 +1,9 @@
 package hr.algebra.flashback.controller
 
-import hr.algebra.flashback.dto.user.*
+import hr.algebra.flashback.dto.user.ChangePlanDto
+import hr.algebra.flashback.dto.user.CompleteProfileDto
+import hr.algebra.flashback.dto.user.UserDto
+import hr.algebra.flashback.dto.user.toDto
 import hr.algebra.flashback.model.log.LogAction
 import hr.algebra.flashback.service.LogService
 import hr.algebra.flashback.service.UserService

@@ -1,7 +1,6 @@
 package hr.algebra.flashback.controller
 
 import hr.algebra.flashback.dto.photo.PhotoFiltersDto
-import hr.algebra.flashback.model.log.LogAction
 import hr.algebra.flashback.service.DownloadLoggingService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.Resource

@@ -1,7 +1,6 @@
 package hr.algebra.flashback.jobs
 
 import hr.algebra.flashback.logging.Logger
-import hr.algebra.flashback.service.LogService
 import hr.algebra.flashback.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled

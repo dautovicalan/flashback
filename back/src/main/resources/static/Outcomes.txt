@@ -11,8 +11,8 @@
 • Preferred: offer solutions for decreasing time spent and allocated memory for completing given programming solution as a part of project presentation -- DONE
 
 • Add aspects using aspect-oriented programming (Outcome: O6 – 12 points)
-• Minimal: an aspect with 2 usages
-• Preferred: at least 2 aspects with at least 5 usages in total
+• Minimal: an aspect with 2 usages -- DONE
+• Preferred: at least 2 aspects with at least 5 usages in total -- DONE
 
 • Demonstrate version control workflow you use when implementing features or refactoring (Outcome: O7 – 12 points) -- DONE
 • Minimal: the solution should be available on a Git repository, and describe the strategy of source code management as a part of project presentation -- DONE

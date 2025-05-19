@@ -11,7 +11,7 @@ class PhotoMetric(
     private val photoUpdateCounter = meterRegistry.counter("photo.update.count")
     private val photoDeleteCounter = meterRegistry.counter("photo.upload.delete.count")
     private val deleteAllPhotoCounter = meterRegistry.counter("photo.upload.delete.all")
-    private val transformationCounter = meterRegistry.timer("photo.upload.transformation")
+    private val transformationCounter = meterRegistry.counter("photo.upload.transformation")
 
     fun incrementUploadCounter() {
         uploadCounter.increment()
@@ -27,6 +27,10 @@ class PhotoMetric(
 
     fun incrementDeleteAllCounter() {
         deleteAllPhotoCounter.increment()
+    }
+
+    fun incrementTransformationCounter() {
+        transformationCounter.increment()
     }
 
 }
