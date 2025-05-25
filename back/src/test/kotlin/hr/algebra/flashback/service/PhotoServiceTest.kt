@@ -80,7 +80,7 @@ class PhotoServiceTest {
             `when`(photoRepository.findById(1)).thenReturn(Optional.empty())
         }
 
-        photoService = PhotoService(photoRepository, fileStorageService, tagService, photoMetric)
+        photoService = PhotoService(photoRepository, fileStorageService, tagService)
 
         authUser = mock(Authentication::class.java)
         `when`(authUser.name).thenReturn("1")

@@ -9,8 +9,10 @@ docker run \
 
  Containers to start
  docker compose up -d - in the root of the this project
+ grafana - admin/admin
+
  npm start dev
- postgre flashback
+ postgres flashback
  keycloak
  es01
  kib01
